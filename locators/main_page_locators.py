@@ -17,3 +17,4 @@ class MainPageLocators:
     PLACE_ORDER_BUTTON = (By.XPATH, "//button[@class ='button_button__33qZ0 button_button_type_primary__1O7Bx button_button_size_large__G21Vg']")
     ENTER_BUTTON =(By.XPATH, "//button[@class ='button_button__33qZ0 button_button_type_primary__1O7Bx button_button_size_large__G21Vg']")
     INGREDIENT_IN_CONSTRUCTOR = (By.XPATH, "//ul[contains(@class, 'BurgerConstructor_basket__list__')]//li")
+    PERSONAL_ACCOUNT = (By.XPATH, "//p[text()='Личный Кабинет']")

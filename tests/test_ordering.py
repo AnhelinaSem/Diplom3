@@ -2,7 +2,7 @@ import pytest
 from pages.order_page import FeedPage
 from pages.login_page import LoginPage
 from pages.main_page import MainPage
-from pages.order_page import OrderPage
+from pages.order_page import FeedPage
 from pages.base_page import BasePage
 from locators.order_locators import FeedPageLocators
 from locators.order_locators import OrderPageLocators
@@ -46,43 +46,7 @@ class TestFeedPage:
 
         self.driver.delete_all_cookies()
 
-    def create_order_and_get_number(self):
-        main_page = MainPage(self.driver)
-        order_page = OrderPage(self.driver)
 
-        self.driver.get(TestData.BASE_URL)
-
-        WebDriverWait(self.driver, 15).until(
-            EC.presence_of_element_located(MainPageLocators.INGREDIENT)
-        )
-        main_page.drag_and_drop_ingredient_to_order()
-
-        login_button = WebDriverWait(self.driver, 10).until(
-            EC.element_to_be_clickable((By.XPATH, "//button[text()='Войти в аккаунт']"))
-        )
-        login_button.click()
-
-        login_page = LoginPage(self.driver)
-        login_page.login(TestData.EMAIL, TestData.PASSWORD)
-
-        place_order_button = WebDriverWait(self.driver, 15).until(
-            EC.element_to_be_clickable((By.XPATH, "//button[text()='Оформить заказ']"))
-        )
-        place_order_button.click()
-
-        order_number = WebDriverWait(self.driver, 15).until(
-            EC.visibility_of_element_located((By.CLASS_NAME, "text_type_digits-large"))
-        ).text
-
-        try:
-            close_button = WebDriverWait(self.driver, 5).until(
-                EC.element_to_be_clickable((By.CLASS_NAME, "Modal_modal__close_modified__3V5XS Modal_modal__close__TnseK"))
-            )
-            close_button.click()
-        except:
-            pass
-
-        return order_number
 
     def test_order_details_modal(self):
         feed_page = FeedPage(self.driver)
@@ -100,6 +64,8 @@ class TestFeedPage:
         )
         assert len(order_cards) > 0
 
+
+
     def test_completed_all_time_counter(self):
         self.driver.get(TestData.BASE_URL + "feed")
         feed_page = FeedPage(self.driver)
@@ -109,15 +75,14 @@ class TestFeedPage:
             EC.presence_of_element_located(FeedPageLocators.ORDER_CARD)
         )
 
-        initial_count = feed_page.get_completed_all_time_count()
+        initial_count = order_page.get_completed_all_time_count()
 
         self.driver.get(TestData.BASE_URL)
-        order_number = self.create_order_and_get_number()
+        self.order_page.create_order_and_get_number()
 
         try:
             close_button = WebDriverWait(self.driver, 5).until(
-                EC.element_to_be_clickable(
-                    (By.CLASS_NAME, "Modal_modal__close_modified__3V5XS Modal_modal__close__TnseK"))
+                EC.element_to_be_clickable(OrderPageLocators.MODAL_ORDER)
             )
             close_button.click()
         except:
@@ -128,7 +93,7 @@ class TestFeedPage:
             EC.presence_of_element_located(FeedPageLocators.ORDER_CARD)
         )
 
-        new_count = feed_page.get_completed_all_time_count()
+        new_count = order_page.get_completed_all_time_count()
         assert new_count > initial_count
 
 

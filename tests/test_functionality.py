@@ -8,6 +8,7 @@ from pages.login_page import LoginPage
 from pages.account_page import PersonalAccountPage
 from locators.main_page_locators import MainPageLocators
 from locators.order_locators import OrderPageLocators
+from locators.login_page_locators import LoginPageLocators
 from data import TestData
 
 
@@ -73,8 +74,7 @@ class TestMainFunctionality:
         main_page.drag_and_drop_ingredient_to_order()
 
         login_button = WebDriverWait(self.driver, 10).until(
-            EC.element_to_be_clickable((By.CLASS_NAME,
-                                        "button_button__33qZ0.button_button_type_primary__1O7Bx.button_button_size_large__G21Vg"))
+            EC.element_to_be_clickable((LoginPageLocators.LOGIN_LOAD_BUTTON))
         )
         login_button.click()
 
@@ -82,14 +82,13 @@ class TestMainFunctionality:
         login_page.login(TestData.EMAIL, TestData.PASSWORD)
 
         WebDriverWait(self.driver, 10).until(
-            EC.visibility_of_element_located((By.XPATH, "//p[text()='Личный Кабинет']"))
+            EC.visibility_of_element_located((MainPageLocators.PERSONAL_ACCOUNT))
         )
 
         self.close_modal()
 
         place_order_button = WebDriverWait(self.driver, 10).until(
-            EC.element_to_be_clickable((By.CLASS_NAME,
-                                        "button_button__33qZ0.button_button_type_primary__1O7Bx.button_button_size_large__G21Vg"))
+            EC.element_to_be_clickable((OrderPageLocators.PLACE_ORDER_BUTTON))
         )
         place_order_button.click()
 

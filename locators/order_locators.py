@@ -14,13 +14,11 @@ class FeedPageLocators:
 
 
 
-
-
-
 class OrderPageLocators:
     ADD_INGREDIENT_BUTTON = (By.XPATH, "//button[text()='Добавить']")
 
     ORDER_CONFIRMATION = (By.XPATH, "//div[@class='Modal_modal__contentBox__sCy8X pt-30 pb-30']")
-    ORDER_NUMBER = (By.XPATH, "//span[contains(@class, 'order_number')]")
+    MODAL_ORDER = (By.CLASS_NAME, "Modal_modal__close_modified__3V5XS Modal_modal__close__TnseK")
+    PLACE_ORDER_BUTTON = (By.CLASS_NAME, "button_button__33qZ0.button_button_type_primary__1O7Bx.button_button_size_large__G21Vg")
 
 

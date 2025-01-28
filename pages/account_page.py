@@ -4,6 +4,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from pages.base_page import BasePage
 from locators.personal_account_locators import PersonalAccountLocators
 
+
 class PersonalAccountPage(BasePage):
     def click_to_element(self, locator):
         WebDriverWait(self.driver, 3).until(
@@ -27,3 +28,7 @@ class PersonalAccountPage(BasePage):
 
     def logout(self):
         self.click_to_element(PersonalAccountLocators.LOGOUT_BUTTON)
+
+    def wait_for_url(self, url_fragment):
+        WebDriverWait(self.driver, 10).until(EC.url_contains(url_fragment))
+        assert url_fragment in self.driver.current_url

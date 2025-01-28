@@ -62,5 +62,43 @@ class OrderPage(BasePage):
         actions = ActionChains(self.driver)
         actions.drag_and_drop(ingredient, order_area).perform()
 
+    def create_order_and_get_number(self):
+        main_page = MainPage(self.driver)
+
+
+        self.driver.get(TestData.BASE_URL)
+
+        WebDriverWait(self.driver, 15).until(
+            EC.presence_of_element_located(MainPageLocators.INGREDIENT)
+        )
+        main_page.drag_and_drop_ingredient_to_order()
+
+        login_button = WebDriverWait(self.driver, 10).until(
+            EC.element_to_be_clickable((By.XPATH, "//button[text()='Войти в аккаунт']"))
+        )
+        login_button.click()
+
+        login_page = LoginPage(self.driver)
+        login_page.login(TestData.EMAIL, TestData.PASSWORD)
+
+        place_order_button = WebDriverWait(self.driver, 15).until(
+            EC.element_to_be_clickable((By.XPATH, "//button[text()='Оформить заказ']"))
+        )
+        place_order_button.click()
+
+        order_number = WebDriverWait(self.driver, 15).until(
+            EC.visibility_of_element_located((By.CLASS_NAME, "text_type_digits-large"))
+        ).text
+
+        try:
+            close_button = WebDriverWait(self.driver, 5).until(
+                EC.element_to_be_clickable((By.CLASS_NAME, "Modal_modal__close_modified__3V5XS Modal_modal__close__TnseK"))
+            )
+            close_button.click()
+        except:
+            pass
+
+        return order_number
+
 
 

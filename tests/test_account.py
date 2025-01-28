@@ -26,8 +26,8 @@ class TestPersonalAccount:
         self.driver.get(TestData.BASE_URL)
         page.go_to_personal_account()
 
-        WebDriverWait(self.driver, 10).until(EC.url_contains("account/profile"))
-        assert "account/profile" in self.driver.current_url
+
+        page.wait_for_url("account/profile")
 
     def test_go_to_order_history(self):
         self.driver.get(TestData.BASE_URL)
@@ -36,7 +36,7 @@ class TestPersonalAccount:
 
         page.go_to_order_history()
 
-        WebDriverWait(self.driver, 10).until(EC.url_contains("account/order-history"))
+        page.wait_for_url("account/order-history")
         assert "account/order-history" in self.driver.current_url
 
     def test_logout(self):
@@ -46,5 +46,5 @@ class TestPersonalAccount:
 
         page.logout()
 
-        WebDriverWait(self.driver, 10).until(EC.url_contains("login"))
+        page.wait_for_url("login")
         assert "Войти" in self.driver.page_source
